@@ -2,20 +2,21 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void drawer(int x, int obj[], int ile);
+void drawer(short x, short obj[], short ile, short kier);
 
 int main()
 {
+    short kierunek=21;
     bool sprawdz=0;
-    int ile;
-    int posc=1;
+    short ile;
+    short posc=1;
     char klaw;
     std::cout << "Kontrolki: \nWASD - Poruszanie sie\nE - kladzenie bloku \nZ - wyczyszczenie planszy\n";
     std::cout << "Podaj limit blokow ktore mozesz uzyc \nCala plansza ma tylko 200 blokow, nie bierz wiecej\n> ";
     std::cin >> ile;
     std::cout << "\033[2J\033[1;1H";
-    int *obj;
-    obj=new int[ile];
+    short *obj;
+    obj=new short[ile];
 purger:
     {
         for(int i=0; i<ile; i++)
@@ -35,7 +36,7 @@ purger:
             }
         }
         sprawdz=0;
-        drawer(posc, obj, ileblok);
+        drawer(posc, obj, ileblok, kierunek);
         std::cout << "Koordynat X: " << posc << "\n";
         std::cout << "Polozone bloki:  " << ileblok << "\n";
         std::cin >> klaw;
@@ -50,28 +51,44 @@ purger:
             {
                 if(obj[i]==posc-20) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc-20<201) && (posc-20>0)) posc=posc-20;
+            if ((sprawdz==false) && (posc-20<201) && (posc-20>0))
+            {
+                posc=posc-20;
+                kierunek=posc-20;
+            }
             break;
         case 97:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc-1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc-1<201) && (posc-1>0)) posc=posc-1;
+            if ((sprawdz==false) && (posc-1<201) && (posc-1>0))
+            {
+                posc=posc-1;
+                kierunek=posc-1;
+            }
             break;
         case 115:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc+20) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc+20<201) && (posc+20>0)) posc=posc+20;
+            if ((sprawdz==false) && (posc+20<201) && (posc+20>0))
+            {
+                posc=posc+20;
+                kierunek=posc+20;
+            }
             break;
         case 100:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc+1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc+1<201) && (posc+1>0)) posc=posc+1;
+            if ((sprawdz==false) && (posc+1<201) && (posc+1>0))
+            {
+                posc=posc+1;
+                kierunek=posc+1;
+            }
             break;
         case 101:
             int g=1;
@@ -86,9 +103,10 @@ purger:
                     {
                         if(posc+1==obj[i]) checking=checking+1;
                     }
-                    if(checking==false){
-                    obj[i]=posc+1;
-                    g++;
+                    if(checking==false)
+                    {
+                        obj[i]=posc+1;
+                        g++;
                     }
                     else g++;
                 }
@@ -99,10 +117,10 @@ purger:
     }
 }
 
-void drawer(int x, int obj[], int ileblok)
+void drawer(short x, short obj[], short ileblok, short kier)
 {
-    int sprawdzz=0;
-    int endy=20;
+    short sprawdzz=0;
+    short endy=20;
     for(int buffer=1; buffer<201; buffer++)
     {
         sprawdzz=0;
@@ -117,6 +135,7 @@ void drawer(int x, int obj[], int ileblok)
         }
         if (sprawdzz>0) std::cout << "D ";
         else if (buffer==x) std::cout << "x ";
+        else if (buffer==kier) std::cout <<"* ";
         else std::cout << "__";
     }
     std::cout << "\n";
