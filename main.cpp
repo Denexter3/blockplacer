@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
-#include <curses.h>
 
 void drawer(int x, int obj[], int ile);
 
