@@ -45,10 +45,16 @@ purger:
         drawer(posc, obj, ileblok, kierunek, wielkosc);
         std::cout << "Koordynat X: " << posc << "\n";
         std::cout << "Polozone bloki:  " << ileblok << "\n";
+        std::cout << "Koordynat wskaznika:  " << kierunek << "\n";
         std::cin >> klaw;
         switch(int(klaw))
         {
-
+        case 113:
+            for(int i=0; i<ileblok; i++)
+            {
+                if(obj[i]==kierunek) obj[i]=-1;
+            }
+            break;
         case 122:
             goto purger;
             break;
