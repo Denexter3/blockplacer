@@ -1,20 +1,26 @@
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
+#include <cmath>
 
-void drawer(short x, short obj[], short ile, short kier);
+void drawer(short x, short obj[], short ile, short kier, short wielkosc);
 
 int main()
 {
-    short kierunek=21;
+    short pierwiast;
+    short wielkosc;
+    short kierunek=0;
     bool sprawdz=0;
     short ile;
     short posc=1;
     char klaw;
     std::cout << "Kontrolki: \nWASD - Poruszanie sie\nE - kladzenie bloku \nZ - wyczyszczenie planszy\n";
-    std::cout << "Podaj limit blokow ktore mozesz uzyc \nCala plansza ma tylko 200 blokow, nie bierz wiecej\n> ";
+    std::cout << "Podaj limit blokow ktore mozesz uzyc \n> ";
     std::cin >> ile;
     std::cout << "\033[2J\033[1;1H";
+    std::cout << "Podaj wielkosc planszy\n> ";
+    std::cin >> wielkosc;
+    pierwiast=sqrt(wielkosc);
     short *obj;
     obj=new short[ile];
 purger:
@@ -36,7 +42,7 @@ purger:
             }
         }
         sprawdz=0;
-        drawer(posc, obj, ileblok, kierunek);
+        drawer(posc, obj, ileblok, kierunek, wielkosc);
         std::cout << "Koordynat X: " << posc << "\n";
         std::cout << "Polozone bloki:  " << ileblok << "\n";
         std::cin >> klaw;
@@ -49,12 +55,12 @@ purger:
         case 119:
             for(int i=0; i<ileblok; i++)
             {
-                if(obj[i]==posc-20) sprawdz=sprawdz+1;
+                if(obj[i]==posc-pierwiast) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc-20<201) && (posc-20>0))
+            if ((sprawdz==false) && (posc-pierwiast<wielkosc+1) && (posc-pierwiast>0))
             {
-                posc=posc-20;
-                kierunek=posc-20;
+                posc=posc-pierwiast;
+                kierunek=posc-pierwiast;
             }
             break;
         case 97:
@@ -62,7 +68,7 @@ purger:
             {
                 if(obj[i]==posc-1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc-1<201) && (posc-1>0))
+            if ((sprawdz==false) && (posc-1<wielkosc+1) && (posc-1>0))
             {
                 posc=posc-1;
                 kierunek=posc-1;
@@ -71,12 +77,12 @@ purger:
         case 115:
             for(int i=0; i<ileblok; i++)
             {
-                if(obj[i]==posc+20) sprawdz=sprawdz+1;
+                if(obj[i]==posc+pierwiast) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc+20<201) && (posc+20>0))
+            if ((sprawdz==false) && (posc+pierwiast<wielkosc+1) && (posc+pierwiast>0))
             {
-                posc=posc+20;
-                kierunek=posc+20;
+                posc=posc+pierwiast;
+                kierunek=posc+pierwiast;
             }
             break;
         case 100:
@@ -84,7 +90,7 @@ purger:
             {
                 if(obj[i]==posc+1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==false) && (posc+1<201) && (posc+1>0))
+            if ((sprawdz==false) && (posc+1<wielkosc+1) && (posc+1>0))
             {
                 posc=posc+1;
                 kierunek=posc+1;
@@ -101,11 +107,11 @@ purger:
                 {
                     for(int i=0; i<ileblok; i++)
                     {
-                        if(posc+1==obj[i]) checking=checking+1;
+                        if(kierunek==obj[i]) checking=checking+1;
                     }
                     if(checking==false)
                     {
-                        obj[i]=posc+1;
+                        obj[i]=kierunek;
                         g++;
                     }
                     else g++;
@@ -117,17 +123,17 @@ purger:
     }
 }
 
-void drawer(short x, short obj[], short ileblok, short kier)
+void drawer(short x, short obj[], short ileblok, short kier, short wielkosc)
 {
     short sprawdzz=0;
-    short endy=20;
-    for(int buffer=1; buffer<201; buffer++)
+    short endy=sqrt(wielkosc);
+    for(int buffer=1; buffer<wielkosc+1; buffer++)
     {
         sprawdzz=0;
         if (buffer==endy+1)
         {
             std::cout << "\n";
-            endy=endy+20;
+            endy=endy+sqrt(wielkosc);
         }
         for(int i=0; i<ileblok; i++)
         {
@@ -140,3 +146,4 @@ void drawer(short x, short obj[], short ileblok, short kier)
     }
     std::cout << "\n";
 }
+
