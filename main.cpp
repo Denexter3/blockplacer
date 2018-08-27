@@ -6,7 +6,7 @@ void drawer(int x, int obj[], int ile);
 
 int main()
 {
-    int sprawdz;
+    bool sprawdz=0;
     int ile;
     int posc=1;
     char klaw;
@@ -16,7 +16,7 @@ int main()
     std::cout << "\033[2J\033[1;1H";
     int *obj;
     obj=new int[ile];
-    purger:
+purger:
     {
         for(int i=0; i<ile; i++)
         {
@@ -27,8 +27,10 @@ int main()
     while(klaw!='9')
     {
         int ileblok=0;
-        for(int h=0; h<ile; h++){
-            if(obj[h]>0){
+        for(int h=0; h<ile; h++)
+        {
+            if(obj[h]>0)
+            {
                 ileblok++;
             }
         }
@@ -48,39 +50,47 @@ int main()
             {
                 if(obj[i]==posc-20) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==0) && (posc-20<201) && (posc-20>0)) posc=posc-20;
+            if ((sprawdz==false) && (posc-20<201) && (posc-20>0)) posc=posc-20;
             break;
         case 97:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc-1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==0) && (posc-1<201) && (posc-1>0)) posc=posc-1;
+            if ((sprawdz==false) && (posc-1<201) && (posc-1>0)) posc=posc-1;
             break;
         case 115:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc+20) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==0) && (posc+20<201) && (posc+20>0)) posc=posc+20;
+            if ((sprawdz==false) && (posc+20<201) && (posc+20>0)) posc=posc+20;
             break;
         case 100:
             for(int i=0; i<ileblok; i++)
             {
                 if(obj[i]==posc+1) sprawdz=sprawdz+1;
             }
-            if ((sprawdz==0) && (posc+1<201) && (posc+1>0)) posc=posc+1;
+            if ((sprawdz==false) && (posc+1<201) && (posc+1>0)) posc=posc+1;
             break;
         case 101:
             int g=1;
+            bool checking=0;
             for(int i=0; g<2; i++)
             {
                 if(obj[i]>=0);
                 else if(i>ile) g++;
                 else
                 {
+                    for(int i=0; i<ileblok; i++)
+                    {
+                        if(posc+1==obj[i]) checking=checking+1;
+                    }
+                    if(checking==false){
                     obj[i]=posc+1;
                     g++;
+                    }
+                    else g++;
                 }
             }
             break;
