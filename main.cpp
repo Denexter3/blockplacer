@@ -2,13 +2,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
+short gdzkier();
+
 void drawer(short x, int obj[], int ile, short kier, short wielkosc, short wielx);
+
+short licznik(short cx, short x, int obj[], int ile, short wmapy);
 
 int main()
 {
     short wielx, wiely;
-    short kierunek=0;
     bool sprawdz=0;
+    short kierunek;
     int ile;
     short posc=1;
     char klaw;
@@ -25,16 +29,17 @@ int main()
     int *obj;
     obj=new int[ile];
 purger:
-    {
-        for(int i=0; i<ile; i++)
         {
-            obj[i]=-1;
+            for(int i=0; i<ile; i++)
+            {
+                obj[i]=-1;
+            }
+            std::cout << "\033[2J\033[1;1H";
         }
-        std::cout << "\033[2J\033[1;1H";
-    }
     int ileblok;
     while(klaw!='9')
     {
+        kierunek=gdzkier();
         ileblok=0;
         for(int h=0; h<ile; h++)
         {
@@ -46,8 +51,9 @@ purger:
         sprawdz=0;
         drawer(posc, obj, ile, kierunek, wielkosc, wielx);
         std::cout << "Koordynat X: " << posc << "\n";
-        std::cout << "Polozone bloki:  " << ileblok << "\n";
-        std::cout << "Koordynat wskaznika:  " << kierunek << "\n";
+        std::cout << "Polozone bloki:  " << ileblok;
+        if(ileblok==ile) std::cout << " !LIMIT!";
+        std::cout << "\nKoordynat wskaznika:  " << kierunek << "\n";
         std::cin >> klaw;
         switch(int(klaw))
         {
@@ -61,56 +67,24 @@ purger:
             goto purger;
             break;
         case 119:
-            for(int i=0; i<ile; i++)
-            {
-                if(obj[i]==posc-wielx) sprawdz=sprawdz+1;
-            }
-            if ((sprawdz==false) && (posc-wielx<wielkosc+1) && (posc-wielx>0))
-            {
-                posc=posc-wielx;
-                kierunek=posc-wielx;
-            }
+            posc=licznik(-wielx, posc, obj, ile, wielkosc);
             break;
         case 97:
-            for(int i=0; i<ile; i++)
-            {
-                if(obj[i]==posc-1) sprawdz=sprawdz+1;
-            }
-            if ((sprawdz==false) && (posc-1<wielkosc) && (posc-1>0))
-            {
-                posc=posc-1;
-                kierunek=posc-1;
-            }
+            posc=licznik(-1, posc, obj, ile, wielkosc);
             break;
         case 115:
-            for(int i=0; i<ile; i++)
-            {
-                if(obj[i]==posc+wielx) sprawdz=sprawdz+1;
-            }
-            if ((sprawdz==false) && (posc+wielx<wielkosc+1) && (posc+wielx>0))
-            {
-                posc=posc+wielx;
-                kierunek=posc+wielx;
-            }
+            posc=licznik(wielx, posc, obj, ile, wielkosc);
             break;
         case 100:
-            for(int i=0; i<ile; i++)
-            {
-                if(obj[i]==posc+1) sprawdz=sprawdz+1;
-            }
-            if ((sprawdz==false) && (posc+1<wielkosc+1) && (posc+1>0))
-            {
-                posc=posc+1;
-                kierunek=posc+1;
-            }
+            posc=licznik(1, posc, obj, ile, wielkosc);
             break;
         case 101:
             int g=1;
             bool checking=0;
             for(int i=0; g<2; i++)
             {
-                if(obj[i]>=0);
-                else if(i>ile) g++;
+                if(i==ile) g++;
+                else if(obj[i]>=1);
                 else
                 {
                     for(int i=0; i<ileblok; i++)
@@ -131,28 +105,3 @@ purger:
     }
 }
 
-void drawer(short x, int obj[], int ile, short kier, short wielkosc, short wx)
-{
-    short endy=wx;
-    short sprawdzz=0;
-    int buffer=1;
-    for(buffer; buffer<wielkosc+1; buffer++)
-    {
-        sprawdzz=0;
-        if (buffer==endy+1)
-        {
-            std::cout << "\n";
-            endy=endy+wx;
-        }
-        for(int i=0; i<ile; i++)
-        {
-            if(obj[i]==buffer) sprawdzz++;
-        }
-        if (sprawdzz>0) std::cout << "D ";
-        else if (buffer==x) std::cout << "x ";
-        else if (buffer==kier) std::cout <<"* ";
-        else std::cout << "..";
-
-    }
-    std::cout << "\n";
-}
