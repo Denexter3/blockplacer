@@ -1,3 +1,3 @@
 # blockplacer
-"Gra" o ustawianiu bloków na 2-wymiarowej planszy.
-Moje pierwsze podejście do tworzenia czegoś w stylu gry.
+Nie wiem. To jest taki program, chodzisz x'em, ustawiasz jakieś inne literki. 
+W zasadzie spaghetti code.
